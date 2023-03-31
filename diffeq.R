@@ -15,7 +15,12 @@ run.model = function(start.state,
                                      duration = years[length(years)] - years[1],
                                      step_size = 1)
     # Process the results
-    results # for right now, just return
+    uninfected = setNames(unlist(results[2]), unlist(results[1]))
+    undiagnosed = setNames(unlist(results[3]), unlist(results[1]))
+    diagnosed = setNames(unlist(results[4]), unlist(results[1]))
+    
+    list("uninfected"=uninfected, "undiagnosed"=undiagnosed, "diagnosed"=diagnosed)
+    
 }
 
 compute.differential = function(state, t, parameters)
