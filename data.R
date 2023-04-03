@@ -36,8 +36,8 @@ calibration.data.frame = data.frame(
     type = c(rep('diagnoses', length(MD.DIAGNOSES)), rep('prevalence', length(MD.PREVALENCE)))
 )
 
-library(ggplot2)
-
-print(ggplot(calibration.data.frame, aes(x=year, y=value)) +
-          geom_point() +
-       facet_wrap(~type, scales = 'free') + ylim(0,NA))
+# library(ggplot2)
+# 
+# print(ggplot(calibration.data.frame, aes(x=year, y=value)) +
+#           geom_point() +
+#        facet_wrap(~type, scales = 'free') + ylim(0,NA))

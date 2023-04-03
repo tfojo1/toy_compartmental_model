@@ -14,12 +14,13 @@ run.model = function(start.state,
                                      start = years[1],
                                      duration = years[length(years)] - years[1],
                                      step_size = 1)
-    # Process the results
-    uninfected = setNames(unlist(results[2]), unlist(results[1]))
-    undiagnosed = setNames(unlist(results[3]), unlist(results[1]))
-    diagnosed = setNames(unlist(results[4]), unlist(results[1]))
-    
-    list("uninfected"=uninfected, "undiagnosed"=undiagnosed, "diagnosed"=diagnosed)
+    #Process the results
+    uninfected = setNames(results[[2]], results[[1]])
+    undiagnosed = setNames(results[[3]], results[[1]])
+    diagnosed = setNames(results[[4]], results[[1]])
+    cumulative.diagnoses = setNames(results[[5]], results[[1]])
+
+    list("uninfected"=uninfected, "undiagnosed"=undiagnosed, "diagnosed"=diagnosed, "cumulative.diagnoses"=cumulative.diagnoses)
     
 }
 
@@ -41,6 +42,7 @@ compute.differential = function(state, t, parameters)
     
     dx[UNDIAGNOSED] = dx[UNDIAGNOSED] - new.diagnoses
     dx[DIAGNOSED] = dx[DIAGNOSED] + new.diagnoses
+    dx[CUMULATIVE.DIAGNOSES] = dx[CUMULATIVE.DIAGNOSES] + new.diagnoses
     
     # Births
     # @Andrew
