@@ -38,8 +38,6 @@ compute.differential = function(state, t, parameters)
     dx[UNINFECTED] = dx[UNINFECTED] - infections
     dx[UNDIAGNOSED] = dx[UNDIAGNOSED] + infections
     
-    dx[CUMULATIVE.INFECTIONS] = dx[CUMULATIVE.INFECTIONS] + infections
-    
     # Diagnoses
     # @Andrew
     new.diagnoses = parameters$testing.rate * state[UNDIAGNOSED]

@@ -26,10 +26,10 @@ suppression.model.linear = lm(value ~ year, suppression.data)
 # plot fitted values to data points and check prediction to 2030
 
 parameters = list(
-    suppression.slope = suppression.model$coefficients[2],
-    suppression.intercept = suppression.model$coefficients[1],
-    testing.rate = 0.25,
-    force.of.infection = .025,
+    # suppression.slope = suppression.model$coefficients[2],
+    # suppression.intercept = suppression.model$coefficients[1],
+    testing.rate = 0.18782960,
+    force.of.infection = 0.03655538,
     
     birth.rate = 10.8/1000,
     
@@ -38,9 +38,11 @@ parameters = list(
 )
 
 # Run the model
+
 sim = run.model(start.state = start.state.2011,
                 parameters = parameters,
                 years = 2010:2030) # need to do 2010 to see 2011
+
 
 
 # Compare to calibration data
