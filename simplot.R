@@ -20,10 +20,11 @@ simplot <- function(sim,
         sim.data = extract.new.diagnoses(sim, years)
         calibration.data = calibration.data.frame[calibration.data.frame$type == 'diagnoses' & calibration.data.frame$year %in% years,]
     }
-    merged.data = merge(sim.data, calibration.data, by = "year")
+    merged.data = merge(sim.data, calibration.data, by = "year", all.x=T)
     
     plot = ggplot2::ggplot(merged.data, aes(x=year)) +
         geom_line(aes(y=!!sym(outcome))) + 
-        geom_point(aes(y=value))
+        geom_point(aes(y=value)) +
+        ylim(0, NA)
     print(plot)
 }

@@ -14,9 +14,19 @@ start.state.2011[CUMULATIVE.DIAGNOSES] = 0
 
 # Set up parameters
 
+# regression
+suppression.data = calibration.data.frame[calibration.data.frame$type == 'suppression',]
+suppression.data$year = suppression.data$year - 2011
+suppression.model = glm(value ~ year, family=binomial(link="logit"), data=suppression.data)
+suppression.model.linear = lm(value ~ year, suppression.data)
+
+# plot fitted values to data points and check prediction to 2030
+
 parameters = list(
+    suppression.slope = suppression.model$coefficients[2],
+    suppression.intercept = suppression.model$coefficients[1],
     testing.rate = 0.25,
-    force.of.infection = .1,
+    force.of.infection = .025,
     
     birth.rate = 10.8/1000,
     

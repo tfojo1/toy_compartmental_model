@@ -29,11 +29,21 @@ MD.PREVALENCE = c('2008'=25094,
                   '2019'=33311,
                   '2020'=33425)
 
+MD.SUPPRESSION = c('2011'=0.3,
+                   '2012'=0.386,
+                   '2013'=0.418,
+                   '2014'=0.445,
+                   '2015'=0.479,
+                   '2016'=0.545,
+                   '2017'=0.578,
+                   '2018'=0.628,
+                   '2019'=0.649,
+                   '2020'=0.622)
 
 calibration.data.frame = data.frame(
-    value = c(MD.DIAGNOSES, MD.PREVALENCE),
-    year = as.numeric(c(names(MD.DIAGNOSES), names(MD.PREVALENCE))),
-    type = c(rep('diagnoses', length(MD.DIAGNOSES)), rep('prevalence', length(MD.PREVALENCE)))
+    value = c(MD.DIAGNOSES, MD.PREVALENCE, MD.SUPPRESSION),
+    year = as.numeric(c(names(MD.DIAGNOSES), names(MD.PREVALENCE), names(MD.SUPPRESSION))),
+    type = c(rep('diagnoses', length(MD.DIAGNOSES)), rep('prevalence', length(MD.PREVALENCE)), rep('suppression', length(MD.SUPPRESSION)))
 )
 
 # library(ggplot2)

@@ -29,8 +29,11 @@ compute.differential = function(state, t, parameters)
     dx = numeric(length(state))
     
     # Infection
+    #unsuppressed.proportion = 1 - (parameters$suppression.intercept + (t-2011)*parameters$suppression.slope)
+    suppressed.proportion.transformed = parameters$suppression.intercept + (t-2011)*parameters$suppression.slope
+    suppressed.proportion = exp(suppressed.proportion.transformed)/(1 + exp(suppressed.proportion.transformed))
     infection.rate = parameters$force.of.infection *
-        (state[DIAGNOSED] + state[UNDIAGNOSED]) / (state[UNINFECTED] + state[DIAGNOSED] + state[UNDIAGNOSED])
+        (state[DIAGNOSED]*(1 - suppressed.proportion) + state[UNDIAGNOSED]) / (state[UNINFECTED] + state[DIAGNOSED] + state[UNDIAGNOSED])
     infections = infection.rate * state[UNINFECTED]
 
     dx[UNINFECTED] = dx[UNINFECTED] - infections

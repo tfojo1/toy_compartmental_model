@@ -5,7 +5,7 @@
 extract.prevalence <- function(sim, years)
 {
   
-    prevalence = sim$undiagnosed + sim$diagnosed
+    prevalence = sim$diagnosed
     prevalence = data.frame(prevalence)
     prevalence$year = as.numeric(rownames(prevalence))
     prevalence[prevalence$year %in% years,]
