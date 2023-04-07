@@ -6,5 +6,5 @@ CUMULATIVE.DIAGNOSES = 4
 
 get.empty.state = function()
 {
-    numeric(6)
+    numeric(4)
 }

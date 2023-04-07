@@ -15,6 +15,7 @@ MD.DIAGNOSES = c('2008'=1999,
                  '2020'=706)
 
 
+# prevalence in 2020 is # people diagnosed in year 2020 or prior
 MD.PREVALENCE = c('2008'=25094,
                   '2009'=26062,
                   '2010'=27616,

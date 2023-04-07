@@ -18,9 +18,9 @@ run.model = function(start.state,
     uninfected = setNames(results[[2]], results[[1]])
     undiagnosed = setNames(results[[3]], results[[1]])
     diagnosed = setNames(results[[4]], results[[1]])
-    cumulative.diagnoses = setNames(results[[5]], results[[1]])
+    new.diagnoses = diff(setNames(results[[5]], results[[1]]))
 
-    list("uninfected"=uninfected, "undiagnosed"=undiagnosed, "diagnosed"=diagnosed, "cumulative.diagnoses"=cumulative.diagnoses)
+    list("uninfected"=uninfected, "undiagnosed"=undiagnosed, "diagnosed"=diagnosed, "new.diagnoses"=new.diagnoses)
     
 }
 
@@ -29,9 +29,8 @@ compute.differential = function(state, t, parameters)
     dx = numeric(length(state))
     
     # Infection
-    #unsuppressed.proportion = 1 - (parameters$suppression.intercept + (t-2011)*parameters$suppression.slope)
-    suppressed.proportion.transformed = parameters$suppression.intercept + (t-2011)*parameters$suppression.slope
-    suppressed.proportion = exp(suppressed.proportion.transformed)/(1 + exp(suppressed.proportion.transformed))
+    suppressed.proportion.transformed = parameters$suppression.intercept + (t-2010)*parameters$suppression.slope
+    suppressed.proportion = 1/(1 + exp(-1*suppressed.proportion.transformed))
     infection.rate = parameters$force.of.infection *
         (state[DIAGNOSED]*(1 - suppressed.proportion) + state[UNDIAGNOSED]) / (state[UNINFECTED] + state[DIAGNOSED] + state[UNDIAGNOSED])
     infections = infection.rate * state[UNINFECTED]
@@ -39,12 +38,15 @@ compute.differential = function(state, t, parameters)
     dx[UNINFECTED] = dx[UNINFECTED] - infections
     dx[UNDIAGNOSED] = dx[UNDIAGNOSED] + infections
     
+    dx[CUMULATIVE.INFECTIONS] = dx[CUMULATIVE.INFECTIONS] + infections
+    
     # Diagnoses
     # @Andrew
     new.diagnoses = parameters$testing.rate * state[UNDIAGNOSED]
     
     dx[UNDIAGNOSED] = dx[UNDIAGNOSED] - new.diagnoses
     dx[DIAGNOSED] = dx[DIAGNOSED] + new.diagnoses
+    
     dx[CUMULATIVE.DIAGNOSES] = dx[CUMULATIVE.DIAGNOSES] + new.diagnoses
     
     # Births

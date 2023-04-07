@@ -5,6 +5,9 @@ source('diffeq.R')
 source('model_structure.R')
 source('simplot.R')
 
+# going in 2011 means Jan. 1st 2011, coming out it means Dec. 31st 2011
+# what would July 1st be?
+
 # Create a start state
 start.state.2011 = get.empty.state()
 start.state.2011[DIAGNOSED] = 27616 # diagnosed by end of 2010
@@ -37,7 +40,7 @@ parameters = list(
 # Run the model
 sim = run.model(start.state = start.state.2011,
                 parameters = parameters,
-                years = 2011:2030)
+                years = 2010:2030) # need to do 2010 to see 2011
 
 
 # Compare to calibration data
