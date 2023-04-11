@@ -9,11 +9,12 @@ source('simplot.R')
 # what would July 1st be?
 
 # Create a start state
-start.state.2011 = get.empty.state()
-start.state.2011[DIAGNOSED] = 27616 # diagnosed by end of 2010
-start.state.2011[UNDIAGNOSED] = 32700-27616
-start.state.2011[UNINFECTED] = 5773552-32700
-start.state.2011[CUMULATIVE.DIAGNOSES] = 0
+# start.state.2011 = get.empty.state()
+
+start.state.2011.data = c(MD.POPULATION.2010.BLACK - 19501*PREVALENCE.RATIO, 19501*(PREVALENCE.RATIO - 1), 19501,
+                          MD.POPULATION.2010.HISPANIC - 1646*PREVALENCE.RATIO, 1646*(PREVALENCE.RATIO - 1), 1646,
+                          MD.POPULATION.2010.OTHER - 6469*PREVALENCE.RATIO, 6469*(PREVALENCE.RATIO - 1), 6469)
+start.state.2011 = set.state(start.state.2011.data)
 
 # Set up parameters
 
@@ -26,8 +27,8 @@ suppression.model.linear = lm(value ~ year, suppression.data)
 # plot fitted values to data points and check prediction to 2030
 
 parameters = list(
-    # suppression.slope = suppression.model$coefficients[2],
-    # suppression.intercept = suppression.model$coefficients[1],
+    suppression.slope = suppression.model$coefficients[2],
+    suppression.intercept = suppression.model$coefficients[1],
     testing.rate = 0.18782960,
     force.of.infection = 0.03655538,
     
@@ -47,5 +48,5 @@ sim = run.model(start.state = start.state.2011,
 
 # Compare to calibration data
 
-print(simplot(sim, 'prevalence', years=2011:2030))
-print(simplot(sim, 'new', years=2011:2030))
+print(simplot(sim, years=2011:2030, race='BLACK', 'prevalence'))
+print(simplot(sim, years=2011:2030, race='BLACK', 'new'))

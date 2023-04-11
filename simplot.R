@@ -11,18 +11,20 @@ source('sim.R')
 #'@return A ggplot object with years on the x-axis, and the outcome on the y-axis. MD Calibration data in dots, simulation projections in a line
 simplot <- function(sim,
                     years,
+                    race,
                     outcome)
 {
     if (outcome == 'prevalence') {
-        outcome.column.name = 'sim.diagnosed'
-        sim.data = extract.prevalence(sim, years)
-        calibration.data = calibration.data.frame[calibration.data.frame$type == 'prevalence' & calibration.data.frame$year %in% years,]
+        outcome.column.name = 'prevalence'
+        sim.data = extract.prevalence(sim, years, race)
+        calibration.data = calibration.data.frame[calibration.data.frame$type == 'prevalence' & calibration.data.frame$year %in% years & calibration.data.frame$race == race,]
     } else if (outcome == 'new') {
-        outcome.column.name = 'sim.new.diagnoses'
-        sim.data = extract.new.diagnoses(sim, years)
-        calibration.data = calibration.data.frame[calibration.data.frame$type == 'diagnoses' & calibration.data.frame$year %in% years,]
+        outcome.column.name = 'new'
+        sim.data = extract.new.diagnoses(sim, years, race)
+        calibration.data = calibration.data.frame[calibration.data.frame$type == 'diagnoses' & calibration.data.frame$year %in% years & calibration.data.frame$race == race,]
     }
     merged.data = merge(sim.data, calibration.data, by = "year", all.x=T)
+    # browser()
     
     plot = ggplot2::ggplot(merged.data, aes(x=year)) +
         geom_line(aes(y=!!sym(outcome.column.name))) + 
