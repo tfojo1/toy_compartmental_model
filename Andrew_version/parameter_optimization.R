@@ -17,7 +17,9 @@ suppression.model = glm(value ~ year, family=binomial(link="logit"), data=suppre
 
 parameters.to.optimize = list(
     testing.rate = 0.25,
-    force.of.infection = 0.025
+    # force.of.infection = 0.025
+    force.of.infection.slope = 0,
+    force.of.infection.intercept = 0.025
     # suppression.slope = 0.1560836,
     # suppression.intercept = -0.6813797
 )
@@ -57,7 +59,7 @@ objective.function = function(parameters.to.optimize,
         sum.squared.error = sum((merged.data$value - merged.data$sim.new.diagnoses)^2)
     }
     
-    
+    # sum of the squared percentage (relative) error
     sum.squared.error
     
 }

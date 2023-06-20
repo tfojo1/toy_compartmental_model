@@ -22,19 +22,28 @@ run.model = function(start.state,
     diagnoses.end.index = population.end.index + prod(sapply(CUMULATIVE.DIM.NAMES, length))
     incidence.end.index = diagnoses.end.index + prod(sapply(CUMULATIVE.DIM.NAMES, length))
 
-    population = array(unlist(t(results[2:population.end.index])),
-                       dim=c(sapply(STATE.DIM.NAMES, length), nrow(results)),
+    #results[,2:population.end.index]
+    population2 = array(unlist(results[,2:population.end.index]),
+                       dim=c(year=nrow(results), sapply(STATE.DIM.NAMES, length)), #always name dims
+                       dimnames=c(year=list(results[, 1]), STATE.DIM.NAMES))
+    
+    # browser()
+    population = array(unlist(t(results[2:population.end.index])), # make year first by not transposing
+                       dim=c(sapply(STATE.DIM.NAMES, length), year=nrow(results)), #name year for the others
                        dimnames=c(STATE.DIM.NAMES, year=list(results[, 1])))
+    
     diagnoses = array(unlist(t(results[(1 + population.end.index):diagnoses.end.index])),
-                      dim=c(sapply(CUMULATIVE.DIM.NAMES, length), nrow(results)),
+                      dim=c(sapply(CUMULATIVE.DIM.NAMES, length), year=nrow(results)),
                       dimnames=c(CUMULATIVE.DIM.NAMES, year=list(results[, 1])))
+    
     incidence = array(unlist(t(results[(1 + diagnoses.end.index):incidence.end.index])),
-                      dim=c(sapply(CUMULATIVE.DIM.NAMES, length), nrow(results)),
+                      dim=c(sapply(CUMULATIVE.DIM.NAMES, length), year=nrow(results)),
                       dimnames=c(CUMULATIVE.DIM.NAMES, year=list(results[, 1])))
     
     # Process cumulative measures
     # WARNING: ASSUMES ONLY RACE & YEAR DIMENSIONS
-    # For more dimensions, I'd need to have embedded apply() loops
+    # For more dimensions, I'd need to have embedded apply() loops --> OR NOT?
+    # diagnoses = apply(diagnoses, 1:(length(dim(diagnoses))-1), diff) #flips year to the front
     diagnoses = t(apply(diagnoses, 1, diff))
     incidence = t(apply(incidence, 1, diff))
     
@@ -54,12 +63,17 @@ compute.differential = function(ode.state, t, parameters)
     
     
     # Infection
+    # suppressed broken out by race
     suppressed.proportion.transformed = parameters$suppression.intercept + (t-2010)*parameters$suppression.slope
     suppressed.proportion = 1/(1 + exp(-1*suppressed.proportion.transformed))
     
-    # force.of.infection = parameters$force.of.infection.intercept + (t-2010)*parameters$force.of.infection.slope
+    # force.of.infection = parameters$force.of.infection.intercept + (t-2010)*parameters$force.of.infection.slope]
+    # probability of infecting with an infected partner... using sum() everywhere assumes uniform mixing
+    # need a contact matrix (prob for every race of a partner from a given race)
+    # 2*black pop 1*hisp pop 1*other pop
+    # matrix math!
     infection.rate = parameters$force.of.infection *
-        (state['DIAGNOSED', ]*(1 - suppressed.proportion) + state['UNDIAGNOSED', ]) / (state['UNINFECTED', ] + state['DIAGNOSED', ] + state['UNDIAGNOSED', ])
+        sum(state['DIAGNOSED', ]*(1 - suppressed.proportion) + state['UNDIAGNOSED', ]) / sum(state['UNINFECTED', ] + state['DIAGNOSED', ] + state['UNDIAGNOSED', ])
     infections = infection.rate * state['UNINFECTED', ]
 
     dx.state['UNINFECTED', ] = dx.state['UNINFECTED', ] - infections
@@ -83,6 +97,8 @@ compute.differential = function(ode.state, t, parameters)
     dx.state['UNINFECTED', ] = dx.state['UNINFECTED', ] + births
     
     # Deaths
+    # change mortalities
+    # deaths = parameters$mortality * state[]
     deaths.uninfected = parameters$uninfected.mortality * state['UNINFECTED', ]
     deaths.undiagnosed = parameters$hiv.excess.mortality * state['UNDIAGNOSED', ]
     deaths.diagnosed = parameters$hiv.excess.mortality * state['DIAGNOSED', ]

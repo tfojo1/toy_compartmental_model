@@ -11,6 +11,7 @@ source('simplot.R')
 # Create a start state
 # start.state.2011 = get.empty.state()
 
+# brittle!
 start.state.2011.data = c(MD.POPULATION.2010.BLACK - 19501*PREVALENCE.RATIO, 19501*(PREVALENCE.RATIO - 1), 19501,
                           MD.POPULATION.2010.HISPANIC - 1646*PREVALENCE.RATIO, 1646*(PREVALENCE.RATIO - 1), 1646,
                           MD.POPULATION.2010.OTHER - 6469*PREVALENCE.RATIO, 6469*(PREVALENCE.RATIO - 1), 6469)
@@ -26,6 +27,7 @@ suppression.model.linear = lm(value ~ year, suppression.data)
 
 # plot fitted values to data points and check prediction to 2030
 
+# eventually will have a function 'make.parameters()'
 parameters = list(
     suppression.slope = suppression.model$coefficients[2],
     suppression.intercept = suppression.model$coefficients[1],
