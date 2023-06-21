@@ -12,5 +12,5 @@ STATE.DIM.NAMES = list(
 set.state = function(data) {
   array(data, dim=c(3), dimnames= STATE.DIM.NAMES)
      # replace this line
-    # return an array of our data with the right dims and dimnames
+    # return an array of our data with the right dims and dimnames#
 }

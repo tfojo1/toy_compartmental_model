@@ -1,4 +1,4 @@
-#number of diagnoses in 2011#
+#number of diagnoses in 2011##
 MD.DIAGNOSES.2011 = 1409
 MD.UNDIAGNOSED.2011 = 700
 MD.UNINFECTED.2011 = 10000

@@ -13,4 +13,4 @@ start.state.2011 = set.state(c(MD.UNINFECTED.2011, MD.UNDIAGNOSED.2011, MD.DIAGN
 
 # run the model
 
-# examine the results
+# examine the results#
