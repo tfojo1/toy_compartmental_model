@@ -2,11 +2,12 @@
 # main
 
 # Source the files we use (data, diff equation, model structure)
-source('data.R')
-source('diffeq.R')
-source('model_structure.R')
+source('Zoe_version/data.R')
+#source('Zoe_version/diffeq.R')
+source('Zoe_version/model_structure.R')
 
 # create a starting state
+start.state.2011 = set.state(c(MD.UNINFECTED.2011, MD.UNDIAGNOSED.2011, MD.DIAGNOSES.2011)) #this order matters#
 
 # set up parameters
 parameters = list(
@@ -26,5 +27,9 @@ sim = run.model(start.state = start.state.2011,
                 parameters = parameters,
                 years = 2010:2030)
 
+<<<<<<< HEAD
 # examine the results
 #@Zoe make some nice plots that compare projections to calibration data
+=======
+# examine the results#
+>>>>>>> 3ac023f9b2793e8a2872fa422f41513d974350cc
