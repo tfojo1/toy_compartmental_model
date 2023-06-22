@@ -1,9 +1,9 @@
 
 # Source files
-source('data.R')
-source('diffeq.R')
-source('model_structure.R')
-source('sim.R')
+source('Andrew_version/data.R')
+source('Andrew_version/diffeq.R')
+source('Andrew_version/model_structure.R')
+source('Andrew_version/sim.R')
 
 start.state.2011 = get.empty.state()
 start.state.2011[DIAGNOSED] = 27616 # diagnosed by end of 2010

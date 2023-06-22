@@ -1,9 +1,9 @@
 
 # Source files
-source('data.R')
-source('diffeq.R')
-source('model_structure.R')
-source('simplot.R')
+source('Andrew_version/data.R')
+source('Andrew_version/diffeq.R')
+source('Andrew_version/model_structure.R')
+source('Andrew_version/simplot.R')
 
 # going in 2011 means Jan. 1st 2011, coming out it means Dec. 31st 2011
 # what would July 1st be?
