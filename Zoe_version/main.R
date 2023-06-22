@@ -3,7 +3,7 @@
 
 # Source the files we use (data, diff equation, model structure)
 source('Zoe_version/data.R')
-#source('Zoe_version/diffeq.R')
+source('Zoe_version/diffeq.R')
 source('Zoe_version/model_structure.R')
 
 # create a starting state
@@ -27,9 +27,5 @@ sim = run.model(start.state = start.state.2011,
                 parameters = parameters,
                 years = 2010:2030)
 
-<<<<<<< HEAD
 # examine the results
 #@Zoe make some nice plots that compare projections to calibration data
-=======
-# examine the results#
->>>>>>> 3ac023f9b2793e8a2872fa422f41513d974350cc
