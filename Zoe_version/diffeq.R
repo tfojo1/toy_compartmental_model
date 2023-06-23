@@ -9,7 +9,7 @@ run.model = function(
     years) {
   
   start.state.for.ode = numeric(length(start.state))
-  
+  start.state.for.ode[1:length(start.state)] = as.numeric(start.state)
   results = odeintr::integrate_sys(
     sys = function(x,t) {compute.differential(ode.state=x, t=t, parameters=parameters)},
     init = start.state.for.ode,
@@ -17,6 +17,8 @@ run.model = function(
     step_size = 1,
     start = years[1]
   )
+  
+  array()
   
   # Process results, a data.frame with years as rows
   #@Zoe fill this in if you want practice working with arrays
@@ -66,5 +68,5 @@ compute.differential = function(ode.state, t, parameters) {
   dx.state['DIAGNOSED'] = dx.state['DIAGNOSED'] - deaths.diagnosed
   
   # Return the derivative as a vector of the same length as the ODE's state
-  c(as.numeric(dx.state), as.numeric(dx.diagnoses), as.numeric(dx.incidence))
+  c(as.numeric(dx.state))
 }
