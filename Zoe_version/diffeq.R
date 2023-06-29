@@ -17,8 +17,9 @@ run.model = function(
     step_size = 1,
     start = years[1]
   )
-  
-  array()
+  transformed.data = results
+  transformed.data
+  #array() this was what was getting returned- an empty array
   
   # Process results, a data.frame with years as rows
   #@Zoe fill this in if you want practice working with arrays
