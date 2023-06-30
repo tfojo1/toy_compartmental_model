@@ -7,7 +7,7 @@ source('Zoe_version/diffeq.R')
 source('Zoe_version/model_structure.R')
 
 # create a starting state
-start.state.2011 = set.state(c(MD.UNINFECTED.2011, MD.UNDIAGNOSED.2011, MD.DIAGNOSES.2011)) #this order matters#
+start.state.2011 = set.state(c(MD.UNINFECTED.2011, MD.UNDIAGNOSED.2011, MD.PREVALENCE.2011)) #this order matters#
 
 # set up parameters
 parameters = list(
@@ -38,6 +38,8 @@ sim_array <- array(c(uninfected, undiagnosed, diagnosed), dim=c(21,3),
                      year=c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022",
                             "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"),
                      continuum=c('UNINFECTED', 'UNDIAGNOSED', 'DIAGNOSED')))
+
+sim_array_list = dimnames(sim_array)
 
 # examine the results
 #@Zoe make some nice plots that compare projections to calibration data
