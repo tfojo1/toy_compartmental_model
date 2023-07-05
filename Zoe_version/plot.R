@@ -5,6 +5,8 @@ library(ggplot2)
 CDC_data = data.frame(MD.PREVALENCE.CDC)
 CDC_data$year = row.names(CDC_data)
 
+
+
 #Initially had made sim_array into a dataframe to plot but this structure
 #doesn't make sense for the data (once it gains complexity)
 # sim_data <- as.data.frame(sim_array)
@@ -18,9 +20,24 @@ plot_data <- data.frame(years, diagnosed) #initially had called this diagnosed b
 plot_data <- data.frame(years, diagnosed) 
 
 
-#Re-done plot of cdc vs. model
-ggplot() + 
+#First plot#
+
+prevalenceplot <- ggplot() + 
   geom_point(data=plot_data, aes(x=years, y=diagnosed), color='blue') + 
   geom_point(data=CDC_data, aes(x=year, y=MD.PREVALENCE.CDC), color='red')
 
+print(prevalenceplot + labs(
+  title= "HIV Prevalence: Model Prediction vs. CDC Data",
+  y= "HIV Prevalence" , x= "Year"
+))
 
+#Second plot#
+
+# newcaseplot <- ggplot() + 
+#   geom_point(data=plot_data, aes(x=CHANGE, y=CHANGE), color='blue') + 
+#   geom_point(data=CDC_data, aes(x=CHANGE, y=CHANGE), color='red')
+
+# print(newcaseplot + labs(
+#   title= "New HIV Cases: Model Prediction vs. CDC Data",
+#   y= "Count of New HIV Cases" , x= "Year"
+# ))

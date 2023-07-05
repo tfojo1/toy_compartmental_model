@@ -43,6 +43,20 @@ MD.POPULATION.CDC = c(
                 '2019' = 6054954,
                 '2020' = 6055802)
 
+MD.NEWCASES = c('2008'=1999,
+                 '2009'=1669,
+                 '2010'=1722,
+                 '2011'=1409,
+                 '2012'=1307,
+                 '2013'=1291,
+                 '2014'=1231,
+                 '2015'=1171,
+                 '2016'=1093,
+                 '2017'=1020,
+                 '2018'=990,
+                 '2019'=915,
+                 '2020'=706)
+
 #Right now these are all going to be the same as the values above so figure out how to fix that#
 
 MD.PREVALENCE.2011.CDC = 28599  #actually 2010#

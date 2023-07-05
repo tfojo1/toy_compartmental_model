@@ -8,7 +8,7 @@ run.model = function(
     parameters,
     years) {
   
-  start.state.for.ode = numeric(length(start.state))
+  start.state.for.ode = numeric(length(start.state)+1)
   start.state.for.ode[1:length(start.state)] = as.numeric(start.state)
   results = odeintr::integrate_sys(
     sys = function(x,t) {compute.differential(ode.state=x, t=t, parameters=parameters)},
@@ -32,6 +32,7 @@ compute.differential = function(ode.state, t, parameters) {
   # Every time a new aspect of the model affects how a compartment changes, we'll add to or subtract from its value in this array.
   # the whole sapply(dimnames, length) thing is a handy way to figure out the length of each dimension based on how you defined the dimnames earlier
   dx.state = array(0, dim = sapply(STATE.DIM.NAMES, length), dimnames = STATE.DIM.NAMES)
+  dx.diagnoses= array(0, dim= 1)
   
   # Since some of the rates of change depend on the current state (e.g., infections depend on how many people are infectious), we need to import the state.
   state = array(ode.state, dim = sapply(STATE.DIM.NAMES, length), dimnames = STATE.DIM.NAMES)
@@ -67,7 +68,10 @@ compute.differential = function(ode.state, t, parameters) {
   dx.state['UNINFECTED'] = dx.state['UNINFECTED'] - deaths.uninfected
   dx.state['UNDIAGNOSED'] = dx.state['UNDIAGNOSED'] - deaths.undiagnosed
   dx.state['DIAGNOSED'] = dx.state['DIAGNOSED'] - deaths.diagnosed
+  dx.state['UNINFECTED']= births - infections - deaths.uninfected #uninfected cat should change by this amount#
   
   # Return the derivative as a vector of the same length as the ODE's state
-  c(as.numeric(dx.state))
+  c(as.numeric(dx.state), as.numeric(new.diagnoses))
 }
+
+
