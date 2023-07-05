@@ -32,14 +32,21 @@ sim = run.model(start.state = start.state.2011,
 uninfected <- c(sim$X1)
 undiagnosed <- c(sim$X2)
 diagnosed <- c(sim$X3)
+newcases <- c(sim$X4)
 
-sim_array <- array(c(uninfected, undiagnosed, diagnosed), dim=c(21,3),
+sim_array_prevalence <- array(c(uninfected, undiagnosed, diagnosed), dim=c(21,3),
                    dimnames = list(
                      year=c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022",
                             "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"),
                      continuum=c('UNINFECTED', 'UNDIAGNOSED', 'DIAGNOSED')))
 
-sim_array_list = dimnames(sim_array)
+# sim_array_list = dimnames(sim_array)
+
+sim_array_newcases <- array(c(newcases), dim=c(21,1),
+                   dimnames = list(
+                     year=c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022",
+                            "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"),
+                     continuum=c('NEW_CASES')))
 
 # examine the results
 #@Zoe make some nice plots that compare projections to calibration data
