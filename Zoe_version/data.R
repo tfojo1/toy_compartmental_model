@@ -57,9 +57,31 @@ MD.NEWCASES.CDC = c('2008'=1999,
                  '2019'=915,
                  '2020'=706)
 
-#Right now these are all going to be the same as the values above so figure out how to fix that#
+MD.SUPPRESSION.CDC = c('2011'=0.3,
+                   '2012'=0.386,
+                   '2013'=0.418,
+                   '2014'=0.445,
+                   '2015'=0.479,
+                   '2016'=0.545,
+                   '2017'=0.578,
+                   '2018'=0.628,
+                   '2019'=0.649,
+                   '2020'=0.622)
+
+
 
 MD.PREVALENCE.2011.CDC = 28599  #actually 2010#
 MD.INFECTED.2011.CDC = PREVALENCE.RATIO * MD.PREVALENCE.2011.CDC 
 MD.UNDIAGNOSED.2011.CDC =  MD.INFECTED.2011 - MD.PREVALENCE.2011.CDC
 MD.UNINFECTED.2011.CDC =  5773552 - MD.INFECTED.2011.CDC #actually 2010#
+
+#Creating calibration data frame for regression#
+calibration.data.frame = data.frame(
+  value = c(MD.PREVALENCE.CDC, MD.NEWCASES.CDC, MD.SUPPRESSION.CDC),
+  
+  year = as.numeric(c(names(MD.PREVALENCE.CDC), names(MD.NEWCASES.CDC), names(MD.SUPPRESSION.CDC))),
+  
+  type = c(rep('new_cases', length(MD.NEWCASES.CDC)),
+           rep('prevalence', length(MD.PREVALENCE.CDC)),
+           rep('suppression', length(MD.SUPPRESSION.CDC)))
+)

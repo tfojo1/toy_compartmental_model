@@ -37,11 +37,15 @@ compute.differential = function(ode.state, t, parameters) {
   # Since some of the rates of change depend on the current state (e.g., infections depend on how many people are infectious), we need to import the state.
   state = array(ode.state, dim = sapply(STATE.DIM.NAMES, length), dimnames = STATE.DIM.NAMES)
   
+  
   # -- Infections --
   # Infection rate is determined by the proportion of the population that is infectious, whether they are diagnosed and unsuppressed or just undiagnosed.
   # The fact that you see the *state* used in determining how the state itself will change is why this is a differential equation
+  transformed.suppressed.proportion = (parameters$suppressed.slope*t) + parameters$suppressed.intercept #linear-this is the transformed proportion#after line 44 undo the transformation#
+  #Here you essentially untransform the suppressed values-solve line 16#
+  suppressed.proportion = exp(transformed.suppressed.proportion) / (1+exp(transformed.suppressed.proportion)) 
   infection.rate = parameters$force.of.infection *
-    sum(state['DIAGNOSED']*(1 - parameters$suppressed.proportion) + state['UNDIAGNOSED']) / sum(state['UNINFECTED'] + state['DIAGNOSED'] + state['UNDIAGNOSED'])
+    sum(state['DIAGNOSED']*(1 - suppressed.proportion) + state['UNDIAGNOSED']) / sum(state['UNINFECTED'] + state['DIAGNOSED'] + state['UNDIAGNOSED']) #here is where you apply the suppressed proportion#
   infections = infection.rate * state['UNINFECTED']
   
   # We subtract the number of infected people from the 'UNINFECTED' compartment and add as many to the 'UNDIAGNOSED' compartment.

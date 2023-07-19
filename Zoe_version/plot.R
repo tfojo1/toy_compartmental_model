@@ -7,7 +7,7 @@ CDC_data$year = row.names(CDC_data)
 
 
 #Need to make sim into an array, plot the vectors
-years= sim_array_list[[1]] #create vector of years from the sim list
+years= dimnames(sim_array_newcases)[["year"]] #create vector of years from the sim list
 cdc_prevalence = CDC_data[["MD.PREVALENCE.CDC"]]
 cdc_new_cases = CDC_data[["MD.NEWCASES.CDC"]]
 
