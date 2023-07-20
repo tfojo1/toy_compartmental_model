@@ -27,7 +27,7 @@ objective.function = function(parameters.to.optimize,
                               parameters.not.to.optimize,
                               start.state,
                               years_new, #this has years from 2008-2030#
-                              outcome.to.optimize) #need to create this one still#
+                              outcome.to.optimize) #establish this below#
 {
   parameters.all = c(parameters.to.optimize, parameters.not.to.optimize)
   results = run.model(start.state,
@@ -38,20 +38,34 @@ objective.function = function(parameters.to.optimize,
   #You're optimizing a parameter but need to examine the 'optimized' outcome to determine success
   #Outcomes = new cases, diagnoses
   
+  # if (outcome.to.optimize == 'new_cases') {
+  #   sim.data = sim
+  #   calibration.data = calibration.data.frame[calibration.data.frame$type == 'new_cases' & calibration.data.frame$year %in% years_new,]
+  #   merged.data = merge(sim.data, calibration.data, by.x = "Time", by.y = "year")
+  #   sum.squared.error = sum((merged.data$value - merged.data$X4)^2)
+  # } else if (outcome.to.optimize == 'diagnosed') {
+  #   sim.data = sim
+  #   calibration.data = calibration.data.frame[calibration.data.frame$type == 'prevalence' & calibration.data.frame$year %in% years_new,]
+  #   merged.data = merge(sim.data, calibration.data, by.x = "Time", by.y = "year")
+  #   sum.squared.error = sum((merged.data$value - merged.data$X3)^2)
+  # }
+  
+  #Try another method
   if (outcome.to.optimize == 'new_cases') {
     sim.data = sim
     calibration.data = calibration.data.frame[calibration.data.frame$type == 'new_cases' & calibration.data.frame$year %in% years_new,]
     merged.data = merge(sim.data, calibration.data, by.x = "Time", by.y = "year")
-    sum.squared.error = sum((merged.data$value - merged.data$X4)^2)
+    test.eval = mean(merged.data$value - merged.data$X4)
+
   } else if (outcome.to.optimize == 'diagnosed') {
     sim.data = sim
     calibration.data = calibration.data.frame[calibration.data.frame$type == 'prevalence' & calibration.data.frame$year %in% years_new,]
     merged.data = merge(sim.data, calibration.data, by.x = "Time", by.y = "year")
-    sum.squared.error = sum((merged.data$value - merged.data$X3)^2)
+    test.eval = mean(merged.data$value - merged.data$X3)
   }
   
   #Write what you want returned here:
-  sum.squared.error
+  test.eval
 }
 
 #Run the actual optim function using everything you've created from above
